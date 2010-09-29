@@ -1,3 +1,0 @@
-<Files ~ "\.(css|gif|html|jpg|png)$">
-   SetHandler default-handler
-</Files>
