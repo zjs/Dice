@@ -1,0 +1,3 @@
+ - Split into HTML/Javascript/CSS front end and Python back end connected by Ajax glue
+ - Remember previous dice sets
+ - Remember previous roll result
