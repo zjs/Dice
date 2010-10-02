@@ -3,9 +3,7 @@ import copy
 class RollResult:
     results = []
 
-    def __init__(self, rolls, keep = None, multiplier = 1):
-        self.multiplier = multiplier
-
+    def __init__(self, rolls, keep = None):
         if keep == None:
             self.results = [(roll, True) for roll in rolls]
         else:
@@ -26,9 +24,6 @@ class RollResult:
 
             self.results = results
 
-    def getMultiplier(self):
-        return self.multiplier
-
     def getResults(self):
         return self.results
 
@@ -39,4 +34,4 @@ class RollResult:
         return [roll for (roll,kept) in self.results if kept]
 
     def getValue(self):
-        return self.multiplier*sum(self.getKeptRolls())
+        return sum(self.getKeptRolls())
