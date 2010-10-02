@@ -2,13 +2,21 @@
   <head>
     <title>Dice Roller</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script>
+      function update() {
+          $('#output').load($('form').attr('action')+' #output',{input:$('#input').val()});
+          return false;
+      }
+    </script>
   </head>
   <body>
-    <div id="details"></div>
-    <div id="result"></div>
+    <div id="output">
+      <div id="details"></div>
+      <div id="result"></div>
+    </div>
     <div>
-      <form method="post" action="dice/roll">
-        <input type="text" name="input" /><input type="submit" value="Roll" />
+      <form method="post" action="dice/roll" onsubmit="return update()">
+        <input type="text" name="input" id="input" /><input type="button" value="Roll" onclick="update()" />
       </form>
     </div>
   </body>
