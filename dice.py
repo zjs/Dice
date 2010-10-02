@@ -1,30 +1,30 @@
-from Dice import *
+from Dice import Constant, RollResult, DiceSet
+from Dice.Constant import Constant
 import cgi
 import random
 import re
 
 def _parse_string(string):
-    parsed = re.search('^(-)?([0-9]+)(d([0-9]+))?(k([0-9]+))?(x([0-9]+))?$', string)
+    parsed = re.search('^(-)?([0-9]+)$', string)
+
+    if parsed != None:
+        return {'constant':int(string)}
+
+    parsed = re.search('^([0-9]+)(d([0-9]+))?(k([0-9]+))?(x([0-9]+))?$', string)
 
     if parsed == None:
         raise ValueError
     else:
         pieces = parsed.groups()
-        m = pieces[0]
-        r = pieces[1]
-        d = pieces[3]
-        k = pieces[5]
-        n = pieces[7]
+        r = pieces[0]
+        d = pieces[2]
+        k = pieces[4]
+        n = pieces[6]
 
         if r == None:
             r = 1
         else:
             r = int(r)
-
-        if m == '-':
-            sign = -1
-        else:
-            sign = 1
 
         if d == None:
             d = 1
@@ -41,7 +41,7 @@ def _parse_string(string):
         else:
             n = int(n)
 
-    return {'count':r,'sides':sign*d,'keep':k,'number':n}
+    return {'count':r,'sides':d,'keep':k,'number':n}
 
 def _string_to_strings(input):
     input = re.sub("(?<!\+)-","+-",input)
@@ -55,8 +55,11 @@ def _string_to_sets(input):
     for setString in setStrings:
         pieces = _parse_string(setString)
 
-        for i in range(0,pieces['number']):
-            diceSets.append(DiceSet(pieces['count'],pieces['sides'],pieces['keep']))
+        if pieces.has_key('constant'):
+            diceSets.append(Constant(pieces['constant']))
+        else:
+            for i in range(0,pieces['number']):
+                diceSets.append(DiceSet(pieces['count'],pieces['sides'],pieces['keep']))
 
     return diceSets
 
