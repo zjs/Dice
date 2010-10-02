@@ -5,11 +5,7 @@ class DiceSet:
     def __init__(self, count, sides, keep=None):
         self.count = count
         self.sides = sides
-
-        if keep == None:
-            self.keep = count
-        else:
-            self.keep = keep
+        self.keep = keep
 
     def roll(self):
         return RollResult([random.randint(1,self.sides) for i in range(0, self.count)],self.keep)
