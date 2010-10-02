@@ -29,7 +29,6 @@ class ParseStringTestCase(unittest.TestCase):
 class SplitStringTestCase(unittest.TestCase):
     def testOne(self):
         assert _string_to_strings("6") == ["6"]
-        assert _string_to_strings("-6") == ["-6"]
         assert _string_to_strings("1d6") == ["1d6"]
         assert _string_to_strings("2d6k1") == ["2d6k1"]
         assert _string_to_strings("2d6k1x3") == ["2d6k1x3"]

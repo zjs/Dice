@@ -4,21 +4,27 @@ import random
 import re
 
 def _parse_string(string):
-    parsed = re.search('^([0-9]+)(d([0-9]+))?(k([0-9]+))?(x([0-9]+))?$', string)
+    parsed = re.search('^(-)?([0-9]+)(d([0-9]+))?(k([0-9]+))?(x([0-9]+))?$', string)
 
     if parsed == None:
         raise ValueError
     else:
         pieces = parsed.groups()
-        r = pieces[0]
-        d = pieces[2]
-        k = pieces[4]
-        n = pieces[6]
+        m = pieces[0]
+        r = pieces[1]
+        d = pieces[3]
+        k = pieces[5]
+        n = pieces[7]
 
         if r == None:
             r = 1
         else:
             r = int(r)
+
+        if m == '-':
+            sign = -1
+        else:
+            sign = 1
 
         if d == None:
             d = 1
@@ -35,9 +41,11 @@ def _parse_string(string):
         else:
             n = int(n)
 
-    return {'count':r,'sides':d,'keep':k,'number':n}
+    return {'count':r,'sides':sign*d,'keep':k,'number':n}
 
 def _string_to_strings(input):
+    input = re.sub("(?<!\+)-","+-",input)
+
     return input.split('+')
 
 def _string_to_sets(input):
