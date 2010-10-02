@@ -4,13 +4,13 @@ import random
 import re
 
 def _parse_string(string):
-    parsed = re.search('^(([0-9]+)d)?([0-9]+)(k([0-9]+))?(x([0-9]+))?$', string)
+    parsed = re.search('^([0-9]+)(d([0-9]+))?(k([0-9]+))?(x([0-9]+))?$', string)
 
     if parsed == None:
         raise ValueError
     else:
         pieces = parsed.groups()
-        r = pieces[1]
+        r = pieces[0]
         d = pieces[2]
         k = pieces[4]
         n = pieces[6]
@@ -37,15 +37,15 @@ def _parse_string(string):
 
     return {'count':r,'sides':d,'keep':k,'number':n}
 
+def _string_to_strings(input):
+    return input.split('+')
+
 def _string_to_sets(input):
-    setStrings = []
-    # TODO: Find a cleaner way to do this
-    for s in input.split('+'):
-        setStrings.extend(s)
+    setStrings = _string_to_strings(input)
 
     diceSets = []
     for setString in setStrings:
-        pieces = _parse_string(setString):
+        pieces = _parse_string(setString)
 
         for i in range(0,pieces['number']):
             diceSets.append(DiceSet(pieces['count'],pieces['sides'],pieces['keep']))
